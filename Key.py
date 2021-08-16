@@ -47,7 +47,7 @@ class Key:
         font = 'Times'
         font_size = 30
         color_text = 'black'
-        self.keytext = TextObject(textx, texty, lambda: self.key, color_text, font, font_size)
+        self.keytext = TextObject(textx, texty, self.key, color_text, font, font_size)
 
     def show(self, surface):
         self.create_text()
