@@ -1,6 +1,4 @@
-from math import floor
-from random import random, randint, choice
-
+from random import random, choice
 from TextObject import TextObject
 
 
@@ -9,6 +7,7 @@ class TaskText:
         self.file_path = file_path
         self.words_need = words_need
         self.errortext = ''
+
     def extract_words(self, file_text_path):
         words = []
         ws = open(file_text_path, "r")
@@ -43,28 +42,24 @@ class TaskText:
 
     # def change_color_letter(self, text, key_now):
     #     text =
-    def change_color_letter(self, textobj, right, pressed,key):
-        if right:
-
-            new_txt = (len(textobj.get_text()[:key])+1) * ' ' + pressed +' '* (len(textobj.get_text()) - key)
-            new_text = TextObject(textobj.get_pos()[0], textobj.get_pos()[1],
-                                  new_txt, 'green', 'Courier', 70)
-
-            print(new_txt)
-            print('s'* (len(textobj.get_text()) - key - 1))
-
-        else:
-            self.errortext += pressed
+    def change_color_letter(self, textobj, right, pressed, key, deleting=False):
+        if deleting:
+            self.errortext = self.errortext[:-1]
             new_txt = (len(textobj.get_text()[:key + 1])) * '  ' + self.errortext
-            new_text = TextObject(textobj.get_pos()[0], textobj.get_pos()[1] + 100, new_txt, 'red',
-                                  'Courier', 70)
-        return new_text
-    #
-    # def removeerr(self):
-    #     self.errortext = self.errortext[
+            return new_txt, self.errortext
+        else:
+            if right:
+                new_txt = (len(textobj.get_text()[:key])+1) * ' ' + pressed + ' ' * (len(textobj.get_text()) - key)
+                new_text = TextObject(textobj.get_pos()[0], textobj.get_pos()[1],
+                                      new_txt, 'green', 'Courier', 70)
+                print(new_txt)
+                print('s' * (len(textobj.get_text()) - key - 1))
+                return new_text
 
-
-
+            else:
+                self.errortext += pressed
+                new_txt = (len(textobj.get_text()[:key + 1])) * '  ' + self.errortext
+                return new_txt
 
     def get_average_word_length(self):
         return self.average_word_len

@@ -33,7 +33,7 @@ class TextObject:
         text_surface = self.font.render(text, False, self.color)
         return text_surface, text_surface.get_rect()
 
-    def delete(self, deletet = True):
+    def delete(self, deletet=True):
         self.deleted = deletet
 
     def is_deleted(self):
