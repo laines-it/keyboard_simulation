@@ -3,7 +3,7 @@ from Key import Key
 
 class Keyboard:
     def __init__(self, surface):
-
+        self.deleted = False
         indent = 3
         size_backspace = 3
         self.lang = [["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "BackSpace"],
@@ -73,7 +73,16 @@ class Keyboard:
         return self.keys_created
 
     def get_lang(self):
-        return self.lang
+        if self.shifted:
+            return self.lang_shift
+        else:
+            return self.lang
+
+    def delete(self,deletet = True):
+        self.deleted = deletet
+
+    def is_deleted(self):
+        return self.deleted
 
     def show(self, surface):
         # ITS ONLY FOR VISUALISATION
