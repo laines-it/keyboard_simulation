@@ -46,6 +46,7 @@ class Options:
                             Button('Save changes', self.button_dims[6][2], self.button_dims[6][3],
                                    self.button_surfaces[6])]
         self.selected_button = 0
+        self.button_list[0].on_mouse_hover()
         self.mouse_controls = False
         pygame.Surface.blit(self.screen, self.bgr, (0, 0))
         for one_option in range(len(self.option_text)):
@@ -73,7 +74,7 @@ class Options:
                         self.mouse_controls = False
                         self.button_list[self.selected_button].on_mouse_unhover()
                         if self.selected_button == 0:
-                            self.selected_button = 2
+                            self.selected_button = 6
                             self.button_list[self.selected_button].on_mouse_hover()
                         else:
                             self.selected_button -= 1
@@ -82,7 +83,7 @@ class Options:
                         # Selecting next button
                         self.mouse_controls = False
                         self.button_list[self.selected_button].on_mouse_unhover()
-                        if self.selected_button == 2:
+                        if self.selected_button == 6:
                             self.selected_button = 0
                             self.button_list[self.selected_button].on_mouse_hover()
                         else:
