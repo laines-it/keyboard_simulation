@@ -47,7 +47,7 @@ class Stats:
         self.button_list[0].on_mouse_hover()
 
     def button_click(self, sel_button):
-        if self.button_list[sel_button].button_text == 'Previous':
+        if self.button_list[sel_button].on_mouse_click() == 'Previous':
             self.current_stat_block -= 1
             print(self.current_stat_block)
             if self.current_stat_block == 0:
