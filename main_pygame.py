@@ -86,6 +86,8 @@ class Main:
                                                 self.mytasktext.on_key_wrong(self.textonscreen, my_key, key_now) \
                                                     .show(self.wrong2, True)
                                                 err_ongoing = True
+                                                any_key.set_color('red')
+                                                any_key.show(self.screen)
 
                     if event.key == pygame.K_ESCAPE:
                         self.finished = True
