@@ -31,14 +31,14 @@ class TaskText:
         word_list.append("Press SPACE if you're ready")
 
         all_words = 0
-        all_len = 0
+        self.all_len = 0
         while all_words < self.words_need:
             if self.average_word_len > awcs:
                 one_word = choice(words)
                 if len(one_word) < self.average_word_len:
                     all_words += 1
                     print(one_word)
-                    all_len += len(one_word)
+                    self.all_len += len(one_word)
                     if random() > 0:
                         one_word.upper()
                     word_list.append(one_word)
@@ -47,11 +47,11 @@ class TaskText:
                 if len(one_word) >= self.average_word_len:
                     all_words += 1
                     print(one_word)
-                    all_len += len(one_word)
+                    self.all_len += len(one_word)
                     if random() > 0:
                         one_word.upper()
                     word_list.append(one_word)
-        self.average_word_len = round((all_len / all_words), 1)
+            self.average_word_len = round((self.all_len / all_words), 1)
         return word_list
 
         # Если нажатая клавиша была правильной
@@ -60,6 +60,12 @@ class TaskText:
         new_text = TextObject(textobj.get_pos()[0], textobj.get_pos()[1],
                               new_txt, 'green', 'Courier', 70)
         return new_text
+
+    def get_alllen(self):
+        return self.all_len
+
+    def get_allwords(self):
+        return self.all_len
 
         # Если нажатая клавиша была неправильной
     def on_key_wrong(self, textobj, pressed, key):
