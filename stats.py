@@ -21,8 +21,8 @@ class Stats:
             else:
                 statm1.append(stat_line.strip())
         print(self.statm)
-        self.stat_pos = [(300, 100), (300, 150), (300, 200), (300, 250), (300, 300)]
-        self.stat_text = ['Word number: ', 'Average word length: ', '', '', '']
+        self.stat_pos = [(300, 100), (300, 150), (300, 200), (300, 250), (300, 300), (300, 350), (300, 400)]
+        self.stat_text = ['Date: ', 'Time: ', 'Word number: ', 'Average word length: ', '', '', '']
         self.title_text = 'Keyboard simulator'
         self.current_stat_block = 0
         self.title = TextObject(625, 100, self.title_text, 'black', 'arialblack', 80)

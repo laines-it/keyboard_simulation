@@ -1,18 +1,16 @@
-5
-6
-Accuracy: 100%
-Words per Minute: 16
-Overall Time: 18s
--end_stat-
-5
-6
-Accuracy: 100%
-Words per Minute: 18
-Overall Time: 16s
--end_stat-
+2021-08-17
+18:10:13
 10
 6
 Accuracy: 100%
-Words per Minute: 16
-Overall Time: 37s
+Words per Minute: 18
+Overall Time: 33s
+-end_stat-
+2021-08-17
+18:15:17
+10
+6
+Accuracy: 100%
+Words per Minute: 20
+Overall Time: 30s
 -end_stat-
