@@ -7,6 +7,7 @@ class TaskText:
         self.file_path = file_path
         self.words_need = words_need
         self.errortext = ''
+        self.average_word_len = 0
 
     def extract_words(self, file_text_path):
         words = []
@@ -21,22 +22,35 @@ class TaskText:
         return words
 
     def create_text_list(self):
+        awcf = open('resources/options.txt', 'r')
+        awc = awcf.readlines()
+        awcs = int(awc[0].strip())
+        awcf.close()
         words = self.extract_words(self.file_path)
         word_list = []
         word_list.append("Press SPACE if you're ready")
 
         all_words = 0
         all_len = 0
-        Ns = 0
         while all_words < self.words_need:
-            all_words += 1
-            one_word = choice(words)
-            print(one_word)
-            all_len += len(one_word)
-            if random() > 0:
-                one_word.upper()
-            word_list.append(one_word)
-            Ns += 1
+            if self.average_word_len > awcs:
+                one_word = choice(words)
+                if len(one_word) < self.average_word_len:
+                    all_words += 1
+                    print(one_word)
+                    all_len += len(one_word)
+                    if random() > 0:
+                        one_word.upper()
+                    word_list.append(one_word)
+            else:
+                one_word = choice(words)
+                if len(one_word) >= self.average_word_len:
+                    all_words += 1
+                    print(one_word)
+                    all_len += len(one_word)
+                    if random() > 0:
+                        one_word.upper()
+                    word_list.append(one_word)
         self.average_word_len = round((all_len / all_words), 1)
         return word_list
 

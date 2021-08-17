@@ -2,6 +2,7 @@ import pygame
 from TextObject import TextObject
 from Baton import Button
 from main_pygame import Main
+from options import Options
 
 
 class Menu:
@@ -9,8 +10,9 @@ class Menu:
         pygame.init()
         screen_size = (1280, 720)
         self.title_text = 'Keyboard simulator'
-        self.title = TextObject(625, 100, lambda: self.title_text, 'black', 'arialblack', 80)
+        self.title = TextObject(625, 100, self.title_text, 'black', 'arialblack', 80)
         self.start_main = False
+        self.start_opt = False
         self.finished = False
         self.closed = False
         self.screen = pygame.display.set_mode(screen_size)
@@ -35,6 +37,7 @@ class Menu:
     def start(self):
         self.title.show(self.screen)
         self.finished = False
+        self.selected_button = 0
         while not self.finished:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -70,6 +73,9 @@ class Menu:
                         if self.button_list[self.selected_button].button_text == 'Start':
                             self.finished = True
                             self.start_main = True
+                        elif self.button_list[self.selected_button].on_mouse_click() == 'Options':
+                            self.finished = True
+                            self.start_opt = True
                         else:
                             print('Not done yet')
                 # Mouse controls
@@ -98,6 +104,9 @@ class Menu:
                             if self.button_list[one_button].button_text == 'Start':
                                 self.finished = True
                                 self.start_main = True
+                            elif self.button_list[one_button].on_mouse_click() == 'Options':
+                                self.finished = True
+                                self.start_opt = True
                             else:
                                 print('Not done yet')
                             break
@@ -116,8 +125,12 @@ if __name__ == '__main__':
     while not mymenu.closed:
         pygame.Surface.blit(mymenu.screen, bgr, (0, 0))
         mymenu.start_main = False
+        mymenu.start_opt = False
         mymenu.start()
         if mymenu.start_main:
             # Starting the keyboard simulator
             main = Main()
             main.start()
+        if mymenu.start_opt:
+            opt = Options()
+            opt.start()

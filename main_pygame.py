@@ -9,7 +9,10 @@ class Main:
         pygame.init()
         bg_path = 'resources/bg1.png'
         self.bgr = pygame.image.load(bg_path)
-        words_need = 10
+        wnf = open('resources/options.txt', 'r')
+        wnl = wnf.readlines()
+        words_need = int(wnl[2].rstrip())
+        wnf.close()
         words_file = 'resources/words_en.txt'
         self.screen = pygame.display.set_mode((1280, 720))
         self.wrong2 = pygame.Surface((1280, 60))
