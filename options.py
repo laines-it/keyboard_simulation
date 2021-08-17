@@ -58,6 +58,26 @@ class Options:
             self.button_list[one_button].show()
             self.screen.blit(self.button_surfaces[one_button], self.button_dims[one_button][0:2])
 
+    def button_click(self, sel_button):
+        if self.button_list[sel_button].on_mouse_click() == 'AWL+':
+            self.option_cur[0] = str(int(self.option_cur[0]) + 1)
+        elif self.button_list[sel_button].on_mouse_click() == 'AWL-':
+            self.option_cur[0] = str(int(self.option_cur[0]) - 1)
+        elif self.button_list[sel_button].on_mouse_click() == 'Words':
+            self.option_cur[1] = 'Words'
+        elif self.button_list[sel_button].on_mouse_click() == 'Sentences':
+            self.option_cur[1] = 'Sentences'
+        elif self.button_list[sel_button].on_mouse_click() == 'WC+':
+            self.option_cur[2] = str(int(self.option_cur[2]) + 1)
+        elif self.button_list[sel_button].on_mouse_click() == 'WC-':
+            self.option_cur[2] = str(int(self.option_cur[2]) - 1)
+        elif self.button_list[sel_button].on_mouse_click() == 'Save changes':
+            opt_write = [self.option_cur[0], self.option_cur[1], self.option_cur[2]]
+            ow = open('resources/options.txt', 'w')
+            ow.write('\n'.join(opt_write))
+            ow.close()
+            self.finished = True
+
     def start(self):
         self.finished = False
         self.mouse_controls = False
@@ -91,24 +111,7 @@ class Options:
                             self.button_list[self.selected_button].on_mouse_hover()
                     elif event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
                         # Activating the button
-                        if self.button_list[self.selected_button].on_mouse_click() == 'AWL+':
-                            self.option_cur[0] = str(int(self.option_cur[0]) + 1)
-                        elif self.button_list[self.selected_button].on_mouse_click() == 'AWL-':
-                            self.option_cur[0] = str(int(self.option_cur[0]) - 1)
-                        elif self.button_list[self.selected_button].on_mouse_click() == 'Words':
-                            self.option_cur[1] = 'Words'
-                        elif self.button_list[self.selected_button].on_mouse_click() == 'Sentences':
-                            self.option_cur[1] = 'Sentences'
-                        elif self.button_list[self.selected_button].on_mouse_click() == 'WC+':
-                            self.option_cur[2] = str(int(self.option_cur[2]) + 1)
-                        elif self.button_list[self.selected_button].on_mouse_click() == 'WC-':
-                            self.option_cur[2] = str(int(self.option_cur[2]) - 1)
-                        elif self.button_list[self.selected_button].on_mouse_click() == 'Save changes':
-                            opt_write = [self.option_cur[0], self.option_cur[1], self.option_cur[2]]
-                            ow = open('resources/options.txt', 'w')
-                            ow.write('\n'.join(opt_write))
-                            ow.close()
-                            self.finished = True
+                        self.button_click(self.selected_button)
                 # Mouse controls
                 elif event.type == pygame.MOUSEMOTION:
                     # Finding and selecting the button that mouse is hovering over
@@ -132,24 +135,7 @@ class Options:
                                 self.button_dims[one_button][0] + self.button_dims[one_button][2] \
                                 and self.button_dims[one_button][1] <= mouse_coords[1] <= \
                                 self.button_dims[one_button][1] + self.button_dims[one_button][3]:
-                            if self.button_list[one_button].on_mouse_click() == 'AWL+':
-                                self.option_cur[0] = str(int(self.option_cur[0]) + 1)
-                            elif self.button_list[one_button].on_mouse_click() == 'AWL-':
-                                self.option_cur[0] = str(int(self.option_cur[0]) - 1)
-                            elif self.button_list[one_button].on_mouse_click() == 'Words':
-                                self.option_cur[1] = 'Words'
-                            elif self.button_list[one_button].on_mouse_click() == 'Sentences':
-                                self.option_cur[1] = 'Sentences'
-                            elif self.button_list[one_button].on_mouse_click() == 'WC+':
-                                self.option_cur[2] = str(int(self.option_cur[2]) + 1)
-                            elif self.button_list[one_button].on_mouse_click() == 'WC-':
-                                self.option_cur[2] = str(int(self.option_cur[2]) - 1)
-                            elif self.button_list[one_button].on_mouse_click() == 'Save changes':
-                                opt_write = [self.option_cur[0], self.option_cur[1], self.option_cur[2]]
-                                ow = open('resources/options.txt', 'w')
-                                ow.write('\n'.join(opt_write))
-                                ow.close()
-                                self.finished = True
+                            self.button_click(one_button)
             pygame.Surface.blit(self.screen, self.bgr, (0, 0))
             for one_option in range(len(self.option_text)):
                 opt = self.option_text[one_option] + self.option_cur[one_option]
