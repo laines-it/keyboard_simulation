@@ -24,7 +24,7 @@ class TaskText:
     def create_text_list(self):
         awcf = open('resources/options.txt', 'r')
         awc = awcf.readlines()
-        awcs = int(awc[0].strip())
+        self.awcs = int(awc[0].strip())
         awcf.close()
         words = self.extract_words(self.file_path)
         word_list = []
@@ -33,7 +33,7 @@ class TaskText:
         all_words = 0
         self.all_len = 0
         while all_words < self.words_need:
-            if self.average_word_len > awcs:
+            if self.average_word_len > self.awcs:
                 one_word = choice(words)
                 if len(one_word) < self.average_word_len:
                     all_words += 1

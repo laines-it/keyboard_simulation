@@ -1,5 +1,7 @@
 from math import floor
 from time import time
+from datetime import date
+from datetime import time as d_time
 import pygame
 
 from Baton import Button
@@ -155,6 +157,10 @@ class Main:
         all_time.show(surface)
         exit = TextObject(surface.get_width()/2,surface.get_height()/1.5,'Press ESCAPE',color,'arialblack',fontsize)
         exit.show(surface)
+        stat_list = [str(self.words_need), str(self.mytasktext.awcs), accurate.get_text(), wpm.get_text(), all_time.get_text(), '-end_stat-']
+        statf = open('resources/stats.txt', 'a')
+        statf.write('\n' + '\n'.join(stat_list))
+        statf.close()
 
     def update(self, surface):
         surface.blit(self.bgr, [0, 0])

@@ -14,6 +14,7 @@ class Button:
         self.button_text = button_text
         self.surface = surface
         self.action = action
+        self.is_active = True
 
     def set_color(self, color):
         # This func changes color according to the "rgb" argument
@@ -38,16 +39,31 @@ class Button:
 
     def on_mouse_hover(self):
         # This function will trigger when mouse hovers over the button
-        self.set_color((100, 100, 100))
-        self.show()
+        if self.is_active:
+            self.set_color((100, 100, 100))
+            self.show()
 
     def on_mouse_unhover(self):
         # This function will trigger when mouse stops hovering over the button
-        self.set_color('white')
-        self.show()
+        if self.is_active:
+            self.set_color('white')
+            self.show()
 
     def on_mouse_click(self):
-        if self.action == '-no_action-':
-            return self.button_text
+        if self.is_active:
+            if self.action == '-no_action-':
+                return self.button_text
+            else:
+                return self.action
         else:
-            return self.action
+            return '-is_inactive-'
+
+    def make_inactive(self):
+        self.is_active = False
+        self.set_color((50, 50, 50))
+        self.show()
+
+    def make_active(self):
+        self.is_active = True
+        self.set_color('white')
+        self.show()
