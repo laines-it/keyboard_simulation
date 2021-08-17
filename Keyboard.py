@@ -84,6 +84,11 @@ class Keyboard:
     def is_deleted(self):
         return self.deleted
 
+    def get_size(self):
+        size = self.keysize*15
+        size += self.keyspace*12
+        return size
+
     def show(self, surface):
         # ITS ONLY FOR VISUALISATION
         for let in self.keys_created:

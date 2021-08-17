@@ -1,5 +1,10 @@
+from math import floor
+from time import time
 import pygame
+
+from Baton import Button
 from Keyboard import Keyboard
+from ProgressBar import ProgressBar
 from TaskText import TaskText
 from TextObject import TextObject
 
@@ -11,7 +16,7 @@ class Main:
         self.bgr = pygame.image.load(bg_path)
         wnf = open('resources/options.txt', 'r')
         wnl = wnf.readlines()
-        words_need = int(wnl[2].rstrip())
+        self.words_need = int(wnl[2].rstrip())
         wnf.close()
         words_file = 'resources/words_en.txt'
         self.screen = pygame.display.set_mode((1280, 720))
@@ -28,7 +33,7 @@ class Main:
 
         self.mykeyboard = Keyboard(self.screen)
         self.mykeyboard.show(self.screen)
-        self.mytasktext = TaskText(words_file, words_need)
+        self.mytasktext = TaskText(words_file, self.words_need)
         self.textonscreen = TextObject(text_x, text_y, text_text_func, text_color, text_font, text_font_size)
         self.err_box_coords = (0, self.textonscreen.get_pos()[1] + 100)
         self.wrong2.blit(self.bgr, (0, -280))
@@ -37,18 +42,23 @@ class Main:
 
     def start(self):
         key_now = 0
+        self.errors_total = 0
         words_completed = 0
-        finished = False
+        self.finished = False
         ready = False
         word_ready = False
         err_ongoing = False
+        self.end = False
         text = self.mytasktext.create_text_list()
         self.textonscreen.set_text_func(text[words_completed])
         self.textonscreen.show(self.screen)
-        while words_completed < len(text) and not finished:
+        self.bar = ProgressBar(self.mykeyboard.keyboard_x,0,self.mykeyboard.get_size(),self.words_need)
+        print(type(self.bar))
+        time_start = floor(time())
+        while not self.finished:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    finished = True
+                    self.finished = True
                 elif event.type == pygame.KEYDOWN:
                     my_key = event.unicode
 
@@ -70,21 +80,35 @@ class Main:
                                                 any_key.show(self.screen)
                                             else:
                                                 print('wrong')
+                                                self.errors_total += 1
                                                 self.wrong2.blit(self.bgr, (0, -280))
                                                 self.mytasktext.on_key_wrong(self.textonscreen, my_key, key_now) \
                                                     .show(self.wrong2, True)
                                                 err_ongoing = True
 
                     if event.key == pygame.K_ESCAPE:
-                        finished = True
+                        self.finished = True
                     if event.key == pygame.K_SPACE:
                         if word_ready or words_completed == 0:
+                            if words_completed != 0:
+                                self.bar.add()
+                                print(self.bar.get_parts())
+                                self.bar.show(self.screen)
                             words_completed += 1
                             key_now = 0
                             word_ready = False
                             self.textonscreen.delete()
-                            self.textonscreen.set_text_func(text[words_completed])
-                            self.textonscreen.delete(False)
+
+                            try:
+                                self.textonscreen.set_text_func(text[words_completed])
+                                self.textonscreen.delete(False)
+
+                            except:
+                                self.textonscreen.delete()
+                                self.mykeyboard.delete()
+                                self.end = True
+
+                            self.time_end = floor(time()) - time_start
                             self.update(self.screen)
                         if not ready:
                             self.textonscreen.delete()
@@ -119,6 +143,19 @@ class Main:
             self.screen.blit(self.wrong2, self.err_box_coords)
             pygame.display.flip()
 
+    def show_stat(self,surface):
+        color = 'black'
+        font = 'Times'
+        fontsize = 60
+        accurate = TextObject(surface.get_width()/2,surface.get_height()/8,'Accuracy: '+str(100 - floor((self.errors_total / self.mytasktext.get_alllen())*100))+'%',color,font,fontsize)
+        accurate.show(surface)
+        wpm = TextObject(surface.get_width()/2,surface.get_height()/4,'Words per Minute: '+str(floor(self.words_need // (self.time_end / 60))),color,font,fontsize)
+        wpm.show(surface)
+        all_time = TextObject(surface.get_width()/2,surface.get_height()/2,'Overall Time: '+str(floor(self.time_end))+'s',color,font,fontsize)
+        all_time.show(surface)
+        exit = TextObject(surface.get_width()/2,surface.get_height()/1.5,'Press ESCAPE',color,'arialblack',fontsize)
+        exit.show(surface)
+
     def update(self, surface):
         surface.blit(self.bgr, [0, 0])
         self.screen.blit(self.wrong2, self.err_box_coords)
@@ -126,3 +163,6 @@ class Main:
             self.mykeyboard.show(surface)
         if not self.textonscreen.is_deleted():
             self.textonscreen.show(surface)
+        if self.end:
+            self.show_stat(surface)
+        self.bar.show(surface)
