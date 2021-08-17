@@ -108,6 +108,7 @@ class Options:
                             ow = open('resources/options.txt', 'w')
                             ow.write('\n'.join(opt_write))
                             ow.close()
+                            self.finished = True
                 # Mouse controls
                 elif event.type == pygame.MOUSEMOTION:
                     # Finding and selecting the button that mouse is hovering over
@@ -148,6 +149,7 @@ class Options:
                                 ow = open('resources/options.txt', 'w')
                                 ow.write('\n'.join(opt_write))
                                 ow.close()
+                                self.finished = True
             pygame.Surface.blit(self.screen, self.bgr, (0, 0))
             for one_option in range(len(self.option_text)):
                 opt = self.option_text[one_option] + self.option_cur[one_option]
