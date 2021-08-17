@@ -74,19 +74,21 @@ class Main:
 
                     if event.key == pygame.K_ESCAPE:
                         finished = True
-                    # if event.key
                     if event.key == pygame.K_SPACE:
-                        ready = True
                         if word_ready or words_completed == 0:
                             words_completed += 1
                             key_now = 0
                             word_ready = False
-                        self.textonscreen.delete()
-                        self.textonscreen.set_text_func(text[words_completed])
-                        self.textonscreen.delete(False)
-                        self.update(self.screen)
-                        # self.textonscreen.set_text_func( text[words_completed])
-                        # self.textonscreen.show(self.screen)
+                            self.textonscreen.delete()
+                            self.textonscreen.set_text_func(text[words_completed])
+                            self.textonscreen.delete(False)
+                            self.update(self.screen)
+                        if not ready:
+                            self.textonscreen.delete()
+                            self.textonscreen.set_text_func(text[words_completed])
+                            self.textonscreen.delete(False)
+                            self.update(self.screen)
+                            ready = True
                     if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                         self.mykeyboard.set_shift(True)
                         self.mykeyboard.keys_created = []
